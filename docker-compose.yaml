@@ -40,16 +40,6 @@ services:
     volumes:
       - ./.docker/servers.json:/pgadmin4/servers.json
 
-  #  rabbitmq:
-  #    image: 'rabbitmq:latest'
-  #    environment:
-  #      - 'RABBITMQ_DEFAULT_PASS=secret'
-  #      - 'RABBITMQ_DEFAULT_USER=myuser'
-  #    ports:
-  #      - '5672'
-
-
-
 volumes:
   alfalah-db:
     external: true
