@@ -1,0 +1,53 @@
+services:
+
+  api:
+    container_name: alfalah-api
+    build: .
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: curl -m 5 --silent --fail --request GET http://8080/health | jq --exit-status -n 'inputs | if has("status") then .status=="UP" else false end' > /dev/null || exit 1
+      interval: 10s
+      timeout: 2s
+      retries: 10
+
+  postgres:
+    container_name: alfalah-postgres
+    image: postgres:latest
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: alfalah
+      DOCKER_DEFAULT_PLATFORM: linux/amd64
+    volumes:
+      - alfalah-db:/var/lib/postgresql/data
+      - ./.docker/:/docker-entrypoint-initdb.d/
+
+  pgadmin:
+    container_name: alfalah-pgadmin
+    image: dpage/pgadmin4:latest
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@alfalah.com
+      PGADMIN_DEFAULT_PASSWORD: password
+      PGADMIN_LISTEN_PORT: 8001
+
+  #  rabbitmq:
+  #    image: 'rabbitmq:latest'
+  #    environment:
+  #      - 'RABBITMQ_DEFAULT_PASS=secret'
+  #      - 'RABBITMQ_DEFAULT_USER=myuser'
+  #    ports:
+  #      - '5672'
+
+
+
+volumes:
+  alfalah-db:
+    external: true
