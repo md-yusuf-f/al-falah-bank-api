@@ -12,7 +12,7 @@ services:
       retries: 10
 
   postgres:
-    container_name: alfalah-postgres
+    container_name: postgres
     image: postgres:latest
     restart: unless-stopped
     ports:
@@ -28,7 +28,7 @@ services:
       - ./.docker/:/docker-entrypoint-initdb.d/
 
   pgadmin:
-    container_name: alfalah-pgadmin
+    container_name: pgadmin
     image: dpage/pgadmin4:latest
     restart: unless-stopped
     ports:
@@ -37,6 +37,8 @@ services:
       PGADMIN_DEFAULT_EMAIL: admin@alfalah.com
       PGADMIN_DEFAULT_PASSWORD: password
       PGADMIN_LISTEN_PORT: 8001
+    volumes:
+      - ./.docker/servers.json:/pgadmin4/servers.json
 
   #  rabbitmq:
   #    image: 'rabbitmq:latest'

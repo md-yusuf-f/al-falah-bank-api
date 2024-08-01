@@ -1,0 +1,14 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "alfalah",
+      "Group": "ALFALAH",
+      "Port": 5432,
+      "Username": "postgres",
+      "Password": "password",
+      "Host": "postgres",
+      "SSLMode": "prefer",
+      "MaintenanceDB": "postgres"
+    }
+  }
+}
